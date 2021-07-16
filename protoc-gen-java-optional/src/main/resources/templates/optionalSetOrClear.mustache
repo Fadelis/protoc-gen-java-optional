@@ -1,0 +1,8 @@
+public Builder setOrClear{{javaMethodName}}({{optionalClass}}{{#primitiveOptional}}{{/primitiveOptional}}{{^primitiveOptional}}<{{javaFieldType}}>{{/primitiveOptional}} value) {
+  if (value.isPresent()) {
+    return set{{javaMethodName}}(value.{{optionalGetterMethod}}());
+  } else {
+    clear{{javaMethodName}}();
+  }
+  return this;
+}
