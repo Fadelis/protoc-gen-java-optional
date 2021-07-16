@@ -1,0 +1,7 @@
+public {{optionalClass}}{{#primitiveOptional}}{{/primitiveOptional}}{{^primitiveOptional}}<{{javaFieldType}}>{{/primitiveOptional}} getOptional{{javaMethodName}}() {
+  if (has{{javaMethodName}}()) {
+    return {{optionalClass}}.of(get{{javaMethodName}}());
+  } else {
+    return {{optionalClass}}.empty();
+  }
+}

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+    <groupId>org.grpcmock</groupId>
+    <artifactId>protoc</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>protoc-gen-java-optional</artifactId>
+
+  <name>Protoc Generator Java Optional</name>
+  <description>Protoc generator plugin for java adding support for null safe extra methods</description>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.salesforce.servicelibs</groupId>
+      <artifactId>jprotoc</artifactId>
+      <version>${jprotoc.version}</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <!-- Shade dependencies into an uber jar -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>${maven-shade-plugin.version}</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- Populate the jar's manifest main class to make it executable -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>${maven-jar-plugin.version}</version>
+        <configuration>
+          <archive>
+            <manifest>
+              <addClasspath>true</addClasspath>
+              <mainClass>org.grpcmock.protoc.OptionalGenerator</mainClass>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
+
+      <!-- Make the jar self-executing with Canteen -->
+      <plugin>
+        <groupId>com.salesforce.servicelibs</groupId>
+        <artifactId>canteen-maven-plugin</artifactId>
+        <version>${canteen.version}</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>bootstrap</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>

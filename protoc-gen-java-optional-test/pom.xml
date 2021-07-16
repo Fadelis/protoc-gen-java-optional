@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+    <artifactId>protoc</artifactId>
+    <groupId>org.grpcmock</groupId>
+    <version>1.0.0-SNAPSHOT</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>protoc-gen-java-optional-test</artifactId>
+
+  <name>Protoc Generator Java Optional Test</name>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.google.protobuf</groupId>
+      <artifactId>protobuf-java</artifactId>
+      <version>${protoc.version}</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <extensions>
+      <extension>
+        <groupId>kr.motd.maven</groupId>
+        <artifactId>os-maven-plugin</artifactId>
+        <version>${os-maven-plugin.version}</version>
+      </extension>
+    </extensions>
+    <plugins>
+      <!--      <plugin>-->
+      <!--        <groupId>org.xolstice.maven.plugins</groupId>-->
+      <!--        <artifactId>protobuf-maven-plugin</artifactId>-->
+      <!--        <version>${protobuf-maven-plugin.version}</version>-->
+      <!--        <configuration>-->
+      <!--          <protocArtifact>com.google.protobuf:protoc:${protoc.version}:exe:${os.detected.classifier}</protocArtifact>-->
+      <!--          <protoSourceRoot>${project.basedir}/src/test/resources/</protoSourceRoot>-->
+      <!--          <outputDirectory>${project.build.directory}/generated-sources/protobuf</outputDirectory>-->
+      <!--          <clearOutputDirectory>false</clearOutputDirectory>-->
+      <!--          <useArgumentFile>true</useArgumentFile>-->
+      <!--          <pluginId>java-optional</pluginId>-->
+      <!--          <pluginArtifact>${project.groupId}:protoc-gen-java-optional:${project.version}:exe:${os.detected.classifier}-->
+      <!--          </pluginArtifact>-->
+      <!--          <pluginParameter>setter_optional=true,use_primitive_optionals=true</pluginParameter>-->
+      <!--        </configuration>-->
+      <!--        <executions>-->
+      <!--          <execution>-->
+      <!--            <goals>-->
+      <!--              &lt;!&ndash;              <goal>compile</goal>&ndash;&gt;-->
+      <!--              <goal>compile-custom</goal>-->
+      <!--            </goals>-->
+      <!--          </execution>-->
+      <!--        </executions>-->
+      <!--      </plugin>-->
+      <!--      <plugin>-->
+      <!--        <groupId>com.github.os72</groupId>-->
+      <!--        <artifactId>protoc-jar-maven-plugin</artifactId>-->
+      <!--        <version>${protoc-jar-maven-plugin.version}</version>-->
+      <!--        <executions>-->
+      <!--          <execution>-->
+      <!--            <phase>generate-sources</phase>-->
+      <!--            <goals>-->
+      <!--              <goal>run</goal>-->
+      <!--            </goals>-->
+      <!--            <configuration>-->
+      <!--              <protocVersion>${protoc.version}</protocVersion>-->
+      <!--              <inputDirectories>-->
+      <!--                <include>${project.basedir}/src/test/resources</include>-->
+      <!--              </inputDirectories>-->
+      <!--              <outputTargets>-->
+      <!--                <outputTarget>-->
+      <!--                  <type>java</type>-->
+      <!--                  <outputDirectory>${project.build.directory}/generated-sources/protobuf</outputDirectory>-->
+      <!--                </outputTarget>-->
+      <!--                <outputTarget>-->
+      <!--                  <type>java-optional</type>-->
+      <!--                  <pluginArtifact>${project.groupId}:protoc-gen-java-optional:${project.version}</pluginArtifact>-->
+      <!--                  &lt;!&ndash; optionally can specify desired plugin parameters&ndash;&gt;-->
+      <!--                  <outputOptions>setter_optional=true,use_primitive_optionals=true</outputOptions>-->
+      <!--                  <outputDirectory>${project.build.directory}/generated-sources/protobuf</outputDirectory>-->
+      <!--                </outputTarget>-->
+      <!--              </outputTargets>-->
+      <!--            </configuration>-->
+      <!--          </execution>-->
+      <!--        </executions>-->
+      <!--      </plugin>-->
+      <plugin>
+        <groupId>org.xolstice.maven.plugins</groupId>
+        <artifactId>protobuf-maven-plugin</artifactId>
+        <version>${protobuf-maven-plugin.version}</version>
+        <executions>
+          <execution>
+            <id>protobuf</id>
+            <goals>
+              <goal>compile</goal>
+            </goals>
+            <phase>generate-sources</phase>
+            <configuration>
+              <protocArtifact>com.google.protobuf:protoc:${protoc.version}:exe:${os.detected.classifier}</protocArtifact>
+              <protoSourceRoot>${project.basedir}/src/test/resources/</protoSourceRoot>
+              <outputDirectory>${project.build.directory}/generated-sources/protobuf</outputDirectory>
+              <useArgumentFile>true</useArgumentFile>
+              <protocPlugins>
+                <protocPlugin>
+                  <id>java-optional</id>
+                  <groupId>${project.groupId}</groupId>
+                  <artifactId>protoc-gen-java-optional</artifactId>
+                  <version>${project.version}</version>
+                  <mainClass>org.grpcmock.protoc.plugin.OptionalGenerator</mainClass>
+                </protocPlugin>
+              </protocPlugins>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>

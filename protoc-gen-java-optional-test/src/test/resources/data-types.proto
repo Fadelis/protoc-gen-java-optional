@@ -1,0 +1,73 @@
+syntax = "proto3";
+
+package test.datatypes;
+
+option java_multiple_files = true;
+option java_package = "org.test.datatypes";
+
+enum TestEnum {
+  value0 = 0;
+  value1 = 1;
+  value2 = 2;
+  VALUE3 = 3;
+}
+
+message TestSubMessage {string string = 1;}
+
+message TestMessage {
+  enum TestSubEnum {
+    value0 = 0;
+    value1 = 1;
+    value2 = 2;
+  }
+
+  string string = 1;
+  int32 int32 = 2;
+  bool bool = 3;
+  TestSubMessage subMessage = 5;
+  double double = 6;
+  float float = 7;
+  bytes bytes = 8;
+  int64 int64 = 9;
+  TestEnum enum = 10;
+  fixed32 fixed32 = 11;
+  fixed64 fixed64 = 12;
+  uint32 uint32 = 13;
+  uint64 uint64 = 14;
+  optional bytes optional_bytes = 15;
+  optional string optional_string = 16;
+  optional int32 optional_int32 = 17;
+  optional bool optional_bool = 18;
+  optional double optional_double = 19;
+  optional float optional_float = 20;
+  optional int64 optional_int64 = 21;
+  optional TestEnum optional_enum = 22;
+  optional fixed32 optional_fixed32 = 23;
+  optional fixed64 optional_fixed64 = 24;
+  optional uint32 optional_uint32 = 25;
+  optional uint64 optional_uint64 = 26;
+  map<string, string> map_string_string = 27;
+  map<int64, TestSubMessage> map_int64_sub = 28;
+  map<bool, string> map_bool_string = 29;
+
+  oneof oneof {
+    string oneof_string = 30;
+    TestSubEnum oneof_enum = 31;
+  }
+}
+
+message RepeatedTestMessage {
+  repeated string string = 1;
+  repeated int32 int32 = 2;
+  repeated bool bool = 3;
+  repeated TestSubMessage subMessage = 5;
+  repeated double double = 6;
+  repeated float float = 7;
+  repeated bytes bytes = 8;
+  repeated int64 int64 = 9;
+  repeated TestEnum enum = 10;
+  repeated fixed32 fixed32 = 11;
+  repeated fixed64 fixed64 = 12;
+  repeated uint32 uint32 = 13;
+  repeated uint64 uint64 = 14;
+}
