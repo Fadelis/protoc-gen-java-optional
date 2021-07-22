@@ -82,6 +82,6 @@ plugin needs to be run together with the `java_out` target in order to extend ge
 - `setter_object` - boolean flag indicating whether to add setter methods with the nullable object itself as argument.
   Default `true`.
 - `setter_optional` - boolean flag indicating whether to add setter methods with `Optional` as an argument. Default `false`.
-- `getter_optional` - boolean flag indicating whether to add getter methods returning {@link java.util.Optional}. Default `true`.
+- `getter_optional` - boolean flag indicating whether to add getter methods returning `Optional`. Default `true`.
 - `use_primitive_optionals` - boolean flag indicating whether to use primitive
   optionals (`OptionalInt/OptionalLong/OptionalDouble`) for `optional` protobuf primitive's setters and getters. Default `false`.
