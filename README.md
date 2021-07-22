@@ -10,7 +10,7 @@ keyword.
 
 You must have `protoc` binary installed in your system and have to download `protoc-gen-java-optional` executable based on
 platform from GitHub [releases](https://github.com/Fadelis/protoc-gen-java-optional/releases)
-or [maven-central]().
+or at `Files` section in [maven-central](https://mvnrepository.com/artifact/org.grpcmock/protoc-gen-java-optional/1.0.0).
 
 With defaults:
 
