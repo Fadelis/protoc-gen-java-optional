@@ -57,7 +57,7 @@ protoc --proto-path=./protos/ --java_out=./out/directory --plugin=protoc-gen-jav
                 <id>java-optional</id>
                 <groupId>org.grpcmock</groupId>
                 <artifactId>protoc-gen-java-optional</artifactId>
-                <version>1.0.0</version>
+                <version>1.1.0</version>
                 <mainClass>org.grpcmock.protoc.plugin.OptionalGenerator</mainClass>
               </protocPlugin>
             </protocPlugins>
