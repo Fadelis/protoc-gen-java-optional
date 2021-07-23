@@ -31,7 +31,7 @@ jobs:
           export GITHUB_TAG=${GITHUB_REF##*/}
           mvn versions:set -DnewVersion=$GITHUB_TAG
           sed -i 's/<tag>HEAD<\/tag>/<tag>$GITHUB_TAG<\/tag>/' pom.xml
-          echo ::set-output name=github_tag::${CURRENT_TAG}
+          echo ::set-output name=github_tag::${GITHUB_TAG}
 
       - name: Perform release
         uses: samuelmeuli/action-maven-publish@v1
