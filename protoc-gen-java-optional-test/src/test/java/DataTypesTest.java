@@ -142,6 +142,46 @@ class DataTypesTest {
     assertThat(message.getOptionalSubMessage()).isEmpty();
   }
 
+  @Test
+  void should_have_optional_populated_with_field_data_in_builder() {
+    TestMessage.Builder builder = populatedTestMessage();
+
+    assertThat(builder.getOptionalOneofString()).contains("one-of");
+    assertThat(builder.getOptionalOptionalBool()).contains(true);
+    assertThat(builder.getOptionalOptionalString()).contains("opt-string");
+    assertThat(builder.getOptionalOptionalBytes()).contains(ByteString.copyFromUtf8("opt-bytes"));
+    assertThat(builder.getOptionalOptionalEnum()).contains(TestEnum.value1);
+    assertThat(builder.getOptionalOptionalFloat()).contains(3.5F);
+    assertThat(builder.getOptionalOptionalDouble()).contains(3.5D);
+    assertThat(builder.getOptionalOptionalFixed32()).contains(10);
+    assertThat(builder.getOptionalOptionalFixed64()).contains(10L);
+    assertThat(builder.getOptionalOptionalInt32()).contains(10);
+    assertThat(builder.getOptionalOptionalInt64()).contains(10L);
+    assertThat(builder.getOptionalOptionalUint32()).contains(10);
+    assertThat(builder.getOptionalOptionalUint64()).contains(10L);
+    assertThat(builder.getOptionalSubMessage()).contains(TestSubMessage.newBuilder().setString("value").build());
+  }
+
+  @Test
+  void should_have_empty_optional_on_no_data_in_builder() {
+    TestMessage.Builder builder = TestMessage.newBuilder();
+
+    assertThat(builder.getOptionalOneofString()).isEmpty();
+    assertThat(builder.getOptionalOptionalBool()).isEmpty();
+    assertThat(builder.getOptionalOptionalString()).isEmpty();
+    assertThat(builder.getOptionalOptionalBytes()).isEmpty();
+    assertThat(builder.getOptionalOptionalEnum()).isEmpty();
+    assertThat(builder.getOptionalOptionalFloat()).isEmpty();
+    assertThat(builder.getOptionalOptionalDouble()).isEmpty();
+    assertThat(builder.getOptionalOptionalFixed32()).isEmpty();
+    assertThat(builder.getOptionalOptionalFixed64()).isEmpty();
+    assertThat(builder.getOptionalOptionalInt32()).isEmpty();
+    assertThat(builder.getOptionalOptionalInt64()).isEmpty();
+    assertThat(builder.getOptionalOptionalUint32()).isEmpty();
+    assertThat(builder.getOptionalOptionalUint64()).isEmpty();
+    assertThat(builder.getOptionalSubMessage()).isEmpty();
+  }
+
   private static TestMessage.Builder populatedTestMessage() {
     return TestMessage.newBuilder()
         .setOneofString("one-of")

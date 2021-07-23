@@ -130,7 +130,7 @@ public class OptionalGenerator extends Generator {
 
   private Optional<String> createBuilderMethods(FieldDescriptorProto fieldDescriptor) {
     if (hasFieldPresence(fieldDescriptor)) {
-      return Stream.of(setOrClearMethod(fieldDescriptor), optionalSetOrClearMethod(fieldDescriptor))
+      return Stream.of(setOrClearMethod(fieldDescriptor), optionalSetOrClearMethod(fieldDescriptor), optionalGet(fieldDescriptor))
           .filter(Optional::isPresent)
           .map(Optional::get)
           .collect(Collectors.collectingAndThen(Collectors.joining(DELIMITER), Optional::of));
