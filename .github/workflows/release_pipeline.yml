@@ -36,7 +36,6 @@ jobs:
       - name: Perform release
         uses: samuelmeuli/action-maven-publish@v1
         with:
-          directory: protoc-gen-java-optional
           maven_args: '-DstagingProgressTimeoutMinutes=60'
           gpg_private_key: ${{ secrets.gpg_private_key }}
           gpg_passphrase: ${{ secrets.gpg_passphrase }}
