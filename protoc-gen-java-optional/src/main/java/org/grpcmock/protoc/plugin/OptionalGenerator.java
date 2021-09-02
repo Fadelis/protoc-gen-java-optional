@@ -94,16 +94,29 @@ public class OptionalGenerator extends Generator {
         : protoPackage;
 
     return fileDescriptor.getMessageTypeList().stream()
-        .flatMap(messageDescriptor -> handleMessage(messageDescriptor, protoPackage, javaPackage));
+        .flatMap(descriptor -> handleMessageProto(descriptor, descriptor.getName(), protoPackage, javaPackage));
   }
 
-  private Stream<File> handleMessage(DescriptorProto messageDescriptor, String protoPackage, String javaPackage) {
-    String fileName = javaPackage.replace(".", DIR_SEPARATOR) + DIR_SEPARATOR + messageDescriptor.getName() + JAVA_EXTENSION;
+  private Stream<File> handleMessageProto(
+      DescriptorProto messageDescriptor,
+      String fileName,
+      String protoPackage,
+      String javaPackage
+  ) {
+    String filePath = javaPackage.replace(".", DIR_SEPARATOR) + DIR_SEPARATOR + fileName + JAVA_EXTENSION;
     String fullMethodName = protoPackage + "." + messageDescriptor.getName();
 
+    return Stream.concat(
+        handleMessage(messageDescriptor, filePath, fullMethodName),
+        messageDescriptor.getNestedTypeList().stream()
+            .filter(nestedDescriptor -> !nestedDescriptor.getOptions().getMapEntry())
+            .flatMap(nestedDescriptor -> handleMessageProto(nestedDescriptor, fileName, fullMethodName, javaPackage)));
+  }
+
+  private Stream<File> handleMessage(DescriptorProto messageDescriptor, String filePath, String fullMethodName) {
     return Stream.of(
-        createFile(messageDescriptor, fileName, fullMethodName, BUILDER_SCOPE, this::createBuilderMethods),
-        createFile(messageDescriptor, fileName, fullMethodName, CLASS_SCOPE, this::createClassMethods))
+            createFile(messageDescriptor, filePath, fullMethodName, BUILDER_SCOPE, this::createBuilderMethods),
+            createFile(messageDescriptor, filePath, fullMethodName, CLASS_SCOPE, this::createClassMethods))
         .filter(Optional::isPresent)
         .map(Optional::get);
   }

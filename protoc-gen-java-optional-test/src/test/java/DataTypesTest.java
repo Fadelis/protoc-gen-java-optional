@@ -4,6 +4,8 @@ import com.google.protobuf.ByteString;
 import org.junit.jupiter.api.Test;
 import org.test.datatypes.TestEnum;
 import org.test.datatypes.TestMessage;
+import org.test.datatypes.TestMessage.NestedTestMessage;
+import org.test.datatypes.TestMessage.NestedTestMessage.DeepNestedTestMessage;
 import org.test.datatypes.TestSubMessage;
 
 class DataTypesTest {
@@ -180,6 +182,39 @@ class DataTypesTest {
     assertThat(builder.getOptionalOptionalUint32()).isEmpty();
     assertThat(builder.getOptionalOptionalUint64()).isEmpty();
     assertThat(builder.getOptionalSubMessage()).isEmpty();
+  }
+
+  @Test
+  void should_have_optional_methods_in_nested_types() {
+    NestedTestMessage nestedTestMessage = NestedTestMessage.getDefaultInstance();
+    DeepNestedTestMessage deepNestedTestMessage = DeepNestedTestMessage.getDefaultInstance();
+
+    assertThat(nestedTestMessage.getOptionalOptionalString()).isEmpty();
+    assertThat(nestedTestMessage.getOptionalSubMessage()).isEmpty();
+    assertThat(deepNestedTestMessage.getOptionalOptionalString()).isEmpty();
+    assertThat(deepNestedTestMessage.getOptionalSubMessage()).isEmpty();
+  }
+
+  @Test
+  void should_have_optional_builder_methods_in_nested_types() {
+    NestedTestMessage.Builder nestedTestMessageBuilder = NestedTestMessage.newBuilder();
+    DeepNestedTestMessage.Builder deepNestedTestMessageBuilder = DeepNestedTestMessage.newBuilder();
+
+    assertThat(nestedTestMessageBuilder.getOptionalOptionalString()).isEmpty();
+    assertThat(nestedTestMessageBuilder.getOptionalSubMessage()).isEmpty();
+    assertThat(deepNestedTestMessageBuilder.getOptionalOptionalString()).isEmpty();
+    assertThat(deepNestedTestMessageBuilder.getOptionalSubMessage()).isEmpty();
+  }
+
+  @Test
+  void should_have_set_or_clear_builder_methods_in_nested_types() {
+    NestedTestMessage.Builder nestedTestMessageBuilder = NestedTestMessage.newBuilder();
+    DeepNestedTestMessage.Builder deepNestedTestMessageBuilder = DeepNestedTestMessage.newBuilder();
+
+    assertThat(nestedTestMessageBuilder.setOrClearOptionalString(null)).isSameAs(nestedTestMessageBuilder);
+    assertThat(nestedTestMessageBuilder.setOrClearSubMessage(null)).isSameAs(nestedTestMessageBuilder);
+    assertThat(deepNestedTestMessageBuilder.setOrClearOptionalString(null)).isSameAs(deepNestedTestMessageBuilder);
+    assertThat(deepNestedTestMessageBuilder.setOrClearSubMessage(null)).isSameAs(deepNestedTestMessageBuilder);
   }
 
   private static TestMessage.Builder populatedTestMessage() {
