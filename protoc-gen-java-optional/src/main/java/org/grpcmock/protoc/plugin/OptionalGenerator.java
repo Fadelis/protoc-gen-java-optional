@@ -94,10 +94,10 @@ public class OptionalGenerator extends Generator {
         : protoPackage;
 
     return fileDescriptor.getMessageTypeList().stream()
-        .flatMap(descriptor -> handleMessageProto(descriptor, descriptor.getName(), protoPackage, javaPackage));
+        .flatMap(descriptor -> handleMessage(descriptor, getFileName(fileDescriptor, descriptor), protoPackage, javaPackage));
   }
 
-  private Stream<File> handleMessageProto(
+  private Stream<File> handleMessage(
       DescriptorProto messageDescriptor,
       String fileName,
       String protoPackage,
@@ -107,13 +107,13 @@ public class OptionalGenerator extends Generator {
     String fullMethodName = protoPackage + "." + messageDescriptor.getName();
 
     return Stream.concat(
-        handleMessage(messageDescriptor, filePath, fullMethodName),
+        handleSingleMessage(messageDescriptor, filePath, fullMethodName),
         messageDescriptor.getNestedTypeList().stream()
             .filter(nestedDescriptor -> !nestedDescriptor.getOptions().getMapEntry())
-            .flatMap(nestedDescriptor -> handleMessageProto(nestedDescriptor, fileName, fullMethodName, javaPackage)));
+            .flatMap(nestedDescriptor -> handleMessage(nestedDescriptor, fileName, fullMethodName, javaPackage)));
   }
 
-  private Stream<File> handleMessage(DescriptorProto messageDescriptor, String filePath, String fullMethodName) {
+  private Stream<File> handleSingleMessage(DescriptorProto messageDescriptor, String filePath, String fullMethodName) {
     return Stream.of(
             createFile(messageDescriptor, filePath, fullMethodName, BUILDER_SCOPE, this::createBuilderMethods),
             createFile(messageDescriptor, filePath, fullMethodName, CLASS_SCOPE, this::createClassMethods))
@@ -198,6 +198,21 @@ public class OptionalGenerator extends Generator {
         .put(PRIMITIVE_OPTIONAL, isPrimitiveOptional(javaTypeName))
         .build();
     return Optional.of(applyTemplate(templatePath("optionalGet.mustache"), context));
+  }
+
+  private String getFileName(FileDescriptorProto fileDescriptor, DescriptorProto messageDescriptor) {
+    if (fileDescriptor.getOptions().getJavaMultipleFiles()) {
+      return messageDescriptor.getName();
+    }
+    if (fileDescriptor.getOptions().hasJavaOuterClassname()) {
+      return fileDescriptor.getOptions().getJavaOuterClassname();
+    }
+    String protoPackage = fileDescriptor.hasPackage() ? "." + fileDescriptor.getPackage() : "";
+    String protoTypeName = protoPackage + "." + messageDescriptor.getName();
+    return Optional.ofNullable(protoTypeMap.toJavaTypeName(protoTypeName))
+        .map(javaType -> javaType.substring(0, javaType.lastIndexOf('.')))
+        .map(javaType -> javaType.substring(javaType.lastIndexOf('.') + 1))
+        .orElseThrow(() -> new IllegalArgumentException("Failed to find filename for proto '" + fileDescriptor.getName() + "'"));
   }
 
   private String getJavaMethodName(FieldDescriptorProto fieldDescriptor) {
