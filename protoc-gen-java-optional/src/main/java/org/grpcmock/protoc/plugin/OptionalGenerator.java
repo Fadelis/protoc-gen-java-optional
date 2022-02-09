@@ -103,8 +103,10 @@ public class OptionalGenerator extends Generator {
       String protoPackage,
       String javaPackage
   ) {
-    String filePath = javaPackage.replace(".", DIR_SEPARATOR) + DIR_SEPARATOR + fileName + JAVA_EXTENSION;
-    String fullMethodName = (protoPackage.isEmpty() ? "" : (protoPackage + ".")) + messageDescriptor.getName();
+    String javaPackagePath = javaPackage.isEmpty() ? "" : javaPackage.replace(".", DIR_SEPARATOR) + DIR_SEPARATOR;
+    String protoPackagePath = protoPackage.isEmpty() ? "" : protoPackage + ".";
+    String filePath = javaPackagePath + fileName + JAVA_EXTENSION;
+    String fullMethodName = protoPackagePath + messageDescriptor.getName();
 
     return Stream.concat(
         handleSingleMessage(messageDescriptor, filePath, fullMethodName),
