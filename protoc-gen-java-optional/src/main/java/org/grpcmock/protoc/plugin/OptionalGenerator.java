@@ -32,8 +32,8 @@ public class OptionalGenerator extends Generator {
 
   private static final String DELIMITER = "\n";
   private static final String JAVA_EXTENSION = ".java";
-  private static final String DIR_SEPARATOR = java.io.File.separator;
-  private static final String TEMPLATES_DIRECTORY = "templates/";
+  private static final String DIR_SEPARATOR = "/";
+  private static final String TEMPLATES_DIRECTORY = "templates" + DIR_SEPARATOR;
   private static final String METHOD_NAME = "javaMethodName";
   private static final String FIELD_TYPE = "javaFieldType";
   private static final String OPTIONAL_CLASS = "optionalClass";
