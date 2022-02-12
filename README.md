@@ -10,7 +10,7 @@ keyword.
 
 You must have `protoc` binary installed in your system and have to download `protoc-gen-java-optional` executable based on
 platform from GitHub [releases](https://github.com/Fadelis/protoc-gen-java-optional/releases)
-or at `Files` section in [maven-central](https://mvnrepository.com/artifact/org.grpcmock/protoc-gen-java-optional/1.7.0).
+or at `Files` section in [maven-central](https://mvnrepository.com/artifact/org.grpcmock/protoc-gen-java-optional/1.8.0).
 
 With defaults:
 
@@ -57,7 +57,7 @@ protoc --proto-path=./protos/ --java_out=./out/directory --plugin=protoc-gen-jav
                 <id>java-optional</id>
                 <groupId>org.grpcmock</groupId>
                 <artifactId>protoc-gen-java-optional</artifactId>
-                <version>1.7.0</version>
+                <version>1.8.0</version>
                 <mainClass>org.grpcmock.protoc.plugin.OptionalGenerator</mainClass>
               </protocPlugin>
             </protocPlugins>
