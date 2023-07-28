@@ -1,0 +1,7 @@
+public {{#primitiveOptional}}{{/primitiveOptional}}{{^primitiveOptional}}{{javaFieldType}}{{/primitiveOptional}} getOrNull{{javaMethodName}}() {
+  if (has{{javaMethodName}}()) {
+    return get{{javaMethodName}}();
+  } else {
+    return null;
+  }
+}
