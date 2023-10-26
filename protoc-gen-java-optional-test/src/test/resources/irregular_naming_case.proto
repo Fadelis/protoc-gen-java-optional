@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package test.namingcase;
+
+option java_multiple_files = true;
+option java_package = "org.test.namingcase";
+
+message Test {
+  optional string id1issuertype = 1;
+  optional string id12issuertype = 2;
+  optional string id1issuer1type = 3;
+  optional string id3Issuertype = 4;
+}

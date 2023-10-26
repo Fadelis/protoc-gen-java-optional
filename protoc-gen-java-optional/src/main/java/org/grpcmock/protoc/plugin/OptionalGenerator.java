@@ -25,6 +25,7 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.function.Function;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -43,6 +44,7 @@ public class OptionalGenerator extends Generator {
   private static final String CLASS_SCOPE = "class_scope:";
   private static final String DEFAULT_OPTIONAL_CLASS = Optional.class.getName();
   private static final String DEFAULT_OPTIONAL_GETTER_METHOD = "get";
+  private static final Pattern METHOD_NAME_SPLIT_PATTERN = Pattern.compile("(?<=\\d)(?=[a-z])");
   private static final Map<JavaType, String> PRIMITIVE_CLASSES = ImmutableMap.<JavaType, String>builder()
       .put(JavaType.INT, Integer.class.getSimpleName())
       .put(JavaType.LONG, Long.class.getSimpleName())
@@ -218,7 +220,9 @@ public class OptionalGenerator extends Generator {
   }
 
   private String getJavaMethodName(FieldDescriptorProto fieldDescriptor) {
-    return fieldDescriptor.getJsonName().substring(0, 1).toUpperCase(Locale.ROOT) + fieldDescriptor.getJsonName().substring(1);
+    return Stream.of(METHOD_NAME_SPLIT_PATTERN.split(fieldDescriptor.getJsonName()))
+        .map(OptionalGenerator::capitalize)
+        .collect(Collectors.joining());
   }
 
   private String getJavaTypeName(FieldDescriptorProto fieldDescriptor) {
@@ -259,5 +263,9 @@ public class OptionalGenerator extends Generator {
 
   private static String templatePath(String path) {
     return TEMPLATES_DIRECTORY + path;
+  }
+
+  private static String capitalize(String value) {
+    return value.substring(0, 1).toUpperCase(Locale.ROOT) + value.substring(1);
   }
 }
